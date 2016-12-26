@@ -162,6 +162,8 @@ enum {
     KIND_PTR,
     KIND_STRUCT,
     KIND_FUNC,
+
+
     // used only in parser
     KIND_STUB,
 };
@@ -202,73 +204,89 @@ typedef struct Node {
     union {
         // Char, int, or long
         long ival;
+
         // Float or double
         struct {
             double fval;
             char *flabel;
         };
+
         // String
         struct {
             char *sval;
-            char *slabel;
+            //char *slabel;
         };
+
         // Local/global variable
         struct {
             char *varname;
-            // local
-            int loff;
             Vector *lvarinit;
+
+            // local
             // global
-            char *glabel;
+            char *label;
         };
+
         // Binary operator
         struct {
             struct Node *left;
             struct Node *right;
         };
+
         // Unary operator
         struct {
             struct Node *operand;
         };
+
         // Function call or function declaration
         struct {
             char *fname;
+
             // Function call
             Vector *args;
             struct Type *ftype;
+
             // Function pointer or function designator
             struct Node *fptr;
+
             // Function declaration
             Vector *params;
             Vector *localvars;
             struct Node *body;
         };
+
         // Declaration
         struct {
             struct Node *declvar;
             Vector *declinit;
         };
+
         // Initializer
         struct {
             struct Node *initval;
-            int initoff;
+            //int initoff;
             Type *totype;
         };
+
         // If statement or ternary operator
         struct {
             struct Node *cond;
             struct Node *then;
             struct Node *els;
         };
+
         // Goto and label
         struct {
             char *label;
             char *newlabel;
         };
+
         // Return statement
         struct Node *retval;
+
         // Compound statement
         Vector *stmts;
+
         // Struct reference
         struct {
             struct Node *struc;
